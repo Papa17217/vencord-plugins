@@ -1,0 +1,218 @@
+/* Style dla wtyczki CustomDMSounds */
+
+.cs-modal {
+    max-width: 650px !important;
+    width: 650px !important;
+    height: 520px !important;
+    background-color: var(--background-primary) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cs-container {
+    display: flex;
+    flex-direction: column;
+    height: 380px;
+    width: 100%;
+    padding: 16px;
+    gap: 16px;
+    box-sizing: border-box;
+}
+
+/* Formularz dodawania */
+.cs-form {
+    background-color: var(--background-secondary);
+    border: 1px solid var(--background-modifier-accent);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cs-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cs-input-group label {
+    color: var(--text-normal);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.cs-input {
+    background-color: var(--background-tertiary);
+    color: var(--text-normal);
+    border: 1px solid transparent;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.cs-input:focus {
+    border-color: var(--brand-experiment);
+}
+
+.cs-add-btn {
+    background-color: var(--brand-experiment);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    margin-top: 4px;
+}
+
+.cs-add-btn:hover:not(:disabled) {
+    background-color: var(--brand-experiment-560);
+}
+
+.cs-add-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Sekcja listy przypisanych dźwięków */
+.cs-list-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0; /* Zapewnia scrollowanie listy */
+}
+
+.cs-list-section h3 {
+    color: var(--text-normal);
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.cs-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cs-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.cs-list::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thin-thumb);
+    border-radius: 3px;
+}
+
+.cs-empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 24px;
+    font-size: 13px;
+    border: 1px dashed var(--background-modifier-accent);
+    border-radius: 6px;
+    background-color: var(--background-secondary);
+}
+
+/* Karta przypisanego dźwięku */
+.cs-card {
+    background-color: var(--background-secondary);
+    border: 1px solid var(--background-modifier-accent);
+    border-radius: 6px;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.cs-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.cs-card-user {
+    color: var(--text-normal);
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cs-card-url {
+    color: var(--text-muted);
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+.cs-card-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.cs-btn {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.cs-btn-test {
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+    border: 1px solid var(--background-modifier-accent);
+}
+
+.cs-btn-test:hover {
+    background-color: var(--background-modifier-hover);
+}
+
+.cs-btn-delete {
+    background-color: rgba(240, 71, 71, 0.1);
+    color: var(--text-danger);
+}
+
+.cs-btn-delete:hover {
+    background-color: var(--text-danger);
+    color: white;
+}
+
+/* Przycisk na pasku tytułowym */
+.cs-header-btn {
+    color: var(--interactive-normal);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.cs-header-btn:hover {
+    color: var(--interactive-hover);
+    background-color: var(--background-modifier-hover);
+}
+
+.cs-header-btn:active {
+    color: var(--interactive-active);
+    background-color: var(--background-modifier-active);
+}

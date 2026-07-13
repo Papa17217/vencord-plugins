@@ -1,0 +1,290 @@
+/* Style dla wtyczki QuickNotes */
+
+/* Główne okno notatnika oparte o Modal */
+.qn-modal {
+    max-width: 900px !important;
+    width: 900px !important;
+    height: 550px !important;
+    background-color: var(--background-primary) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Wewnętrzny kontener split-pane */
+.qn-notepad-container {
+    display: flex;
+    height: 420px;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--background-secondary-alt);
+    border: 1px solid var(--background-modifier-accent);
+}
+
+/* --- Panel Boczny (Lista Notatek) --- */
+.qn-sidebar {
+    width: 250px;
+    flex-shrink: 0; /* KLUCZOWE: Zapobiega ściskaniu paska bocznego na małych ekranach */
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--background-modifier-accent);
+    background-color: var(--background-secondary);
+}
+
+.qn-sidebar-header {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-bottom: 1px solid var(--background-modifier-accent);
+    align-items: center;
+}
+
+.qn-search-input {
+    flex: 1;
+    min-width: 0; /* Zapobiega wypychaniu innych elementów we flexie */
+    background-color: var(--background-tertiary);
+    color: var(--text-normal);
+    border: 1px solid transparent;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.qn-search-input:focus {
+    border-color: var(--brand-experiment);
+}
+
+.qn-add-button {
+    flex-shrink: 0; /* Zapobiega ściskaniu przycisku */
+    white-space: nowrap; /* Zapobiega pionowemu układaniu się tekstu */
+    background-color: var(--brand-experiment);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.qn-add-button:hover {
+    background-color: var(--brand-experiment-560);
+}
+
+/* Lista notatek w panelu bocznym */
+.qn-notes-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.qn-notes-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.qn-notes-list::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thin-thumb);
+    border-radius: 3px;
+}
+
+.qn-empty-list {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 30px 10px;
+    font-size: 13px;
+}
+
+/* Element notatki na liście */
+.qn-note-item {
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+    border: 1px solid transparent;
+    background-color: var(--background-secondary-alt);
+}
+
+.qn-note-item:hover {
+    background-color: var(--background-modifier-hover);
+}
+
+.qn-note-item.active {
+    background-color: var(--background-modifier-selected);
+    border-left: 3px solid var(--brand-experiment);
+}
+
+.qn-note-item-title {
+    color: var(--text-normal);
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+}
+
+.qn-note-item-preview {
+    color: var(--text-muted);
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 6px;
+}
+
+.qn-note-item-date {
+    color: var(--text-muted);
+    font-size: 10px;
+    text-align: right;
+    font-style: italic;
+}
+
+/* --- Obszar Edytora --- */
+.qn-editor-area {
+    flex: 1;
+    min-width: 0; /* KLUCZOWE: Zapobiega rozszerzaniu się edytora poza ramy modalu */
+    background-color: var(--background-primary);
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+}
+
+.qn-active-editor {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 12px;
+}
+
+/* Tytuł notatki (input) */
+.qn-title-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--background-modifier-accent);
+    color: var(--text-normal);
+    font-size: 20px;
+    font-weight: 700;
+    padding: 4px 0 8px 0;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.qn-title-input:focus {
+    border-color: var(--brand-experiment);
+}
+
+/* Treść notatki (textarea) */
+.qn-content-textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-normal);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    padding: 4px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.qn-content-textarea::-webkit-scrollbar {
+    width: 8px;
+}
+
+.qn-content-textarea::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thin-thumb);
+    border-radius: 4px;
+}
+
+/* Dolny pasek akcji */
+.qn-actions-bar {
+    display: flex;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--background-modifier-accent);
+}
+
+.qn-action-btn {
+    font-weight: 600 !important;
+}
+
+.qn-delete-btn {
+    margin-left: auto;
+}
+
+/* --- Stan pusty (Placeholder) --- */
+.qn-no-active-note {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.qn-placeholder-icon {
+    color: var(--interactive-muted);
+    margin-bottom: 16px;
+}
+
+.qn-no-active-note h3 {
+    color: var(--text-normal);
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.qn-no-active-note p {
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.qn-add-button-large {
+    background-color: var(--brand-experiment);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.qn-add-button-large:hover {
+    background-color: var(--brand-experiment-560);
+}
+
+/* --- Przycisk na górnym pasku --- */
+.qn-header-btn {
+    color: var(--interactive-normal);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.qn-header-btn:hover {
+    color: var(--interactive-hover);
+    background-color: var(--background-modifier-hover);
+}
+
+.qn-header-btn:active {
+    color: var(--interactive-active);
+    background-color: var(--background-modifier-active);
+}
