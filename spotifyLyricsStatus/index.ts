@@ -54,8 +54,8 @@ let lastStatusText: string | null = null;
 let isLoopRunning = false;
 
 let lastUpdateSentAt = 0;
-let rateLimitResetTime = 0; // Timestamp when rate limit expires
-const MIN_UPDATE_INTERVAL_MS = 4000; // Safe interval: Discord limits status updates to about once every 4 seconds
+let rateLimitResetTime = 0;
+const MIN_UPDATE_INTERVAL_MS = 4000;
 
 function getPrefixSetting(): string {
     try {
@@ -87,12 +87,10 @@ function updateDiscordStatus(text: string) {
 
     const now = Date.now();
     
-    // Check if we are currently rate-limited
     if (now < rateLimitResetTime) {
         return;
     }
 
-    // Rate-limiting check to prevent 429
     if (now - lastUpdateSentAt < MIN_UPDATE_INTERVAL_MS) {
         return;
     }
@@ -114,7 +112,6 @@ function updateDiscordStatus(text: string) {
                 }
             }
         }).then((res: any) => {
-            // Handle successful response or check if rate limited in the payload
             if (res && res.status === 429) {
                 const retryAfter = res.body?.retry_after || 5;
                 rateLimitResetTime = Date.now() + (retryAfter * 1000) + 1500;
@@ -122,10 +119,9 @@ function updateDiscordStatus(text: string) {
             }
         }).catch((err: any) => {
             console.error("[SpotifyLyricsStatus] Error patching status:", err);
-            // Handle 429 error responses
             if (err && (err.status === 429 || err.body?.retry_after)) {
                 const retryAfter = err.body?.retry_after || 30;
-                rateLimitResetTime = Date.now() + (retryAfter * 1000) + 2000; // Add 2s safety buffer
+                rateLimitResetTime = Date.now() + (retryAfter * 1000) + 2000;
                 console.warn(`[SpotifyLyricsStatus] Rate limited by Discord. Pausing updates for ${retryAfter}s.`);
             }
         });
@@ -139,7 +135,6 @@ function clearDiscordStatus() {
     lastStatusText = null;
     console.log("[SpotifyLyricsStatus] Clearing status request");
     
-    // Do not check rate limit when clearing status, we always want to attempt clearing it on pause
     try {
         RestAPI.patch({
             url: "/users/@me/settings",
@@ -340,6 +335,12 @@ export default definePlugin({
 
     start() {
         console.log("[SpotifyLyricsStatus] Plugin started. Subscribing to FluxDispatcher...");
+        
+        // Dynamically request CSP connect-src override for LRCLIB API to support all Electron clients
+        if (typeof VencordNative !== "undefined" && VencordNative.csp?.requestAddOverride) {
+            VencordNative.csp.requestAddOverride("https://lrclib.net", ["connect-src"], "SpotifyLyricsStatus");
+        }
+
         setTimeout(() => {
             try {
                 FluxDispatcher.subscribe("SPOTIFY_PLAYER_STATE", handleSpotifyPlayerState);
