@@ -55,7 +55,7 @@ let isLoopRunning = false;
 
 let lastUpdateSentAt = 0;
 let rateLimitResetTime = 0;
-const MIN_UPDATE_INTERVAL_MS = 4000;
+const MIN_UPDATE_INTERVAL_MS = 2500;
 
 function getPrefixSetting(): string {
     try {
