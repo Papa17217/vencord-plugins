@@ -162,12 +162,17 @@ async function fetchLyrics(track: Track) {
     const exactUrl = `https://lrclib.net/api/get?artist_name=${encodeURIComponent(artistName)}&track_name=${encodeURIComponent(trackName)}&album_name=${encodeURIComponent(albumName)}&duration=${durationSec}`;
     console.log("[SpotifyLyricsStatus] Fetching exact match:", artistName, "-", trackName);
 
+    // Exact match query with 3-second timeout
+    const controller1 = new AbortController();
+    const timeout1 = setTimeout(() => controller1.abort(), 3000);
     try {
         const response = await fetch(exactUrl, {
+            signal: controller1.signal,
             headers: {
                 "User-Agent": "VencordSpotifyLyricsStatus (https://github.com/Vendicated/Vencord)"
             }
         });
+        clearTimeout(timeout1);
         if (response.ok) {
             const data = await response.json();
             if (data && data.syncedLyrics) {
@@ -175,8 +180,13 @@ async function fetchLyrics(track: Track) {
                 return data.syncedLyrics;
             }
         }
-    } catch (error) {
-        console.warn("[SpotifyLyricsStatus] Exact match failed, falling back to search...", error);
+    } catch (error: any) {
+        clearTimeout(timeout1);
+        if (error.name === "AbortError") {
+            console.warn("[SpotifyLyricsStatus] Exact match request timed out after 3 seconds.");
+        } else {
+            console.warn("[SpotifyLyricsStatus] Exact match failed, falling back to search...", error);
+        }
     }
 
     const cleanTrackName = trackName.replace(/\s*\([^)]*\)/g, "").replace(/\s*\[[^\]]*\]/g, "").trim();
@@ -185,12 +195,17 @@ async function fetchLyrics(track: Track) {
     const searchUrl = `https://lrclib.net/api/search?q=${encodeURIComponent(query)}`;
     console.log(`[SpotifyLyricsStatus] Searching lyrics for: "${query}"`);
 
+    // Search query with 3-second timeout
+    const controller2 = new AbortController();
+    const timeout2 = setTimeout(() => controller2.abort(), 3000);
     try {
         const response = await fetch(searchUrl, {
+            signal: controller2.signal,
             headers: {
                 "User-Agent": "VencordSpotifyLyricsStatus (https://github.com/Vendicated/Vencord)"
             }
         });
+        clearTimeout(timeout2);
         if (response.ok) {
             const results = await response.json();
             if (Array.isArray(results) && results.length > 0) {
@@ -201,8 +216,13 @@ async function fetchLyrics(track: Track) {
                 }
             }
         }
-    } catch (error) {
-        console.error("[SpotifyLyricsStatus] Error searching lyrics:", error);
+    } catch (error: any) {
+        clearTimeout(timeout2);
+        if (error.name === "AbortError") {
+            console.warn("[SpotifyLyricsStatus] Search request timed out after 3 seconds.");
+        } else {
+            console.error("[SpotifyLyricsStatus] Error searching lyrics:", error);
+        }
     }
 
     return null;
